@@ -1,1 +1,12 @@
-Hello
+<html>
+    <body>
+        {% for feed in feeds %}
+        <h1>{{ feed }}</h1>
+        <ul>
+            {% for post in feed.posts.all %}
+            <li>{{ post.posted }} - {{ post.posted_ago }} - {{ post.text }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </body>
+</html>
