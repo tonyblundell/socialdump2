@@ -23,6 +23,7 @@ class Feed(models.Model):
         """
             Download the RSS feed, add/update posts.
         """
+        self.posts.all().delete()
         for entry in feedparser.parse(self.feed_url).entries:
             try:
                 self.parse_feedparser_entry(entry)
@@ -34,9 +35,7 @@ class Feed(models.Model):
             Parse a feedparser entry object to a post object.
         """
         uid = getattr(entry, 'id', None) or entry.link
-        print entry.published_parsed
         posted = datetime.datetime(*entry.published_parsed[:6])
-        posted = posted.replace(tzinfo=utc)
         text = entry.title.replace(self.strip_string, '')
         text = (text[0] if text.startswith('http') else text[0].upper()) + text[1:]
         url = entry.link
@@ -66,25 +65,3 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.text
-
-    def posted_ago(self):
-        now = datetime.datetime.now(utc)
-        print now, now.tzinfo
-        print self.posted, self.posted.tzinfo
-
-        diff = now - self.posted
-        if diff.total_seconds() > 0:
-            periods = (
-                (diff.days / 365, 'year'),
-                (diff.days / 30, 'month'),
-                (diff.days / 7, 'week'),
-                (diff.days, 'day'),
-                (diff.seconds / 3600, 'hour'),
-                (diff.seconds / 60, 'minute'),
-            )
-            for period, label in periods:
-                if period > 0:
-                    label = label if period < 2 else label + 's'
-                    return '{0} {1} ago'.format(period, label)
-        return 'Just now'
-

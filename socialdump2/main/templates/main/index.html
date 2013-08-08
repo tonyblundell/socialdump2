@@ -1,12 +1,45 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <title>Tony Blundell</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    </head>
     <body>
-        {% for feed in feeds %}
-        <h1>{{ feed }}</h1>
-        <ul>
-            {% for post in feed.posts.all %}
-            <li>{{ post.posted }} - {{ post.posted_ago }} - {{ post.text }}</li>
-            {% endfor %}
-        </ul>
-        {% endfor %}
+        <div class="container">
+            <div class="row">
+                <div class="span6">
+                    <h1>Tony Blundell</h1>
+                    <p class="lead">Web Developer, Sheffield UK</p>
+                </div>
+                <div class="span6 text-right">
+                    <ul class="unstyled muted inline">
+                        <li><a href="mailto:tonyblundell@gmail.com">tonyblundell@gmail.com</li>
+                        <li><a href="github.com">Source on GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                {% for feed in feeds %}
+                    <div class="span4">
+                        <h2>{{ feed.label }}</h2>
+                        <ul class="unstyled">
+                            {% for post in feed.posts.all|slice:"6" %}
+                                <li>
+                                    <a href="{{ post.url }}">{{ post.text }}</a>
+                                    <p class="muted">{{ post.posted|timesince }} ago</p>    
+                                </li>
+                            {% empty %}
+                                <li>No posts</li>
+                            {% endfor %}
+                        </ul> 
+                        {% if forloop.counter|divisibleby:"3" %}
+                            </div>
+                            <div class="row">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </body>
 </html>
