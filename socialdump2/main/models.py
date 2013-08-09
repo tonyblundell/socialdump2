@@ -9,7 +9,6 @@ class Feed(models.Model):
     feed_url = models.URLField(verbose_name='Feed URL')
     label = models.CharField(max_length=200)
     order = models.PositiveIntegerField()
-    posts_are_links = models.BooleanField(default=False)
     site_url = models.URLField(verbose_name='Site URL')
     strip_string = models.CharField(max_length=200, null=True, blank=True)
     

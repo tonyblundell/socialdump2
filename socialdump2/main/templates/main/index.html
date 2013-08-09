@@ -3,7 +3,12 @@
     <head>
         <title>Tony Blundell</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <!--[if IE 7]>
+            <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+        <![endif]-->
+        <style>a{color:#333}</style>
     </head>
     <body>
         <div class="container">
@@ -14,18 +19,28 @@
                 </div>
                 <div class="span6 text-right">
                     <ul class="unstyled muted inline">
-                        <li><a href="mailto:tonyblundell@gmail.com">tonyblundell@gmail.com</li>
-                        <li><a href="github.com">Source on GitHub</a></li>
+                        <li>
+                            <a href="mailto:tonyblundell@gmail.com">
+                                <i class="icon-envelope"></i>
+                                <span>tonyblundell@gmail.com</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="github.com">
+                                <i class="icon-github"></i>
+                                <span>src</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
             <div class="row">
                 {% for feed in feeds %}
-                    <div class="span4">
-                        <h2>{{ feed.label }}</h2>
+                    <div class="feed span4">
+                        <h2><a href="{{ feed.site_url }}">{{ feed.label }}</a></h2>
                         <ul class="unstyled">
                             {% for post in feed.posts.all|slice:"6" %}
-                                <li>
+                                <li class="{% if forloop.counter > 3 %}hidden-phone{% endif %}">
                                     <a href="{{ post.url }}">{{ post.text }}</a>
                                     <p class="muted">{{ post.posted|timesince }} ago</p>    
                                 </li>
