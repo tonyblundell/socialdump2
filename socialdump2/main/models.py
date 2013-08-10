@@ -7,6 +7,7 @@ from time import mktime
 
 class Feed(models.Model):
     feed_url = models.URLField(verbose_name='Feed URL')
+    icon = models.CharField(max_length=200)
     label = models.CharField(max_length=200)
     order = models.PositiveIntegerField()
     site_url = models.URLField(verbose_name='Site URL')
@@ -35,8 +36,7 @@ class Feed(models.Model):
         """
         uid = getattr(entry, 'id', None) or entry.link
         posted = datetime.datetime(*entry.published_parsed[:6])
-        text = entry.title.replace(self.strip_string, '')
-        text = (text[0] if text.startswith('http') else text[0].upper()) + text[1:]
+        text = entry.title.replace(self.strip_string, '').capitalize()
         url = entry.link
 
         # If the post already exists, update it 
