@@ -8,36 +8,21 @@
         <!--[if IE 7]>
             <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
         <![endif]-->
-        <style>a{color:#333}</style>
+        <style>body{margin:10px 0}a{color:#333}a:hover{color:#08c}</style>
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="span6">
-                    <h1>Tony Blundell</h1>
-                    <p class="lead">Web Developer, Sheffield UK</p>
-                </div>
-                <div class="span6 text-right">
-                    <ul class="unstyled muted inline">
-                        <li>
-                            <a href="mailto:tonyblundell@gmail.com">
-                                <i class="icon-envelope"></i>
-                                <span>tonyblundell@gmail.com</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="github.com">
-                                <i class="icon-github"></i>
-                                <span>src</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <h1>Tony Blundell</h1>
+            <p class="lead">Web Developer, Sheffield UK</p>
             <div class="row">
                 {% for feed in feeds %}
                     <div class="feed span4">
-                        <h2><a href="{{ feed.site_url }}">{{ feed.label }}</a></h2>
+                        <h2>
+                            <a href="{{ feed.site_url }}">
+                                <i class="icon-{{ feed.icon }}"></i>
+                                <span>{{ feed.label }}</span>
+                            </a>
+                        </h2>
                         <ul class="unstyled">
                             {% for post in feed.posts.all|slice:"6" %}
                                 <li class="{% if forloop.counter > 3 %}hidden-phone{% endif %}">
@@ -48,13 +33,28 @@
                                 <li>No posts</li>
                             {% endfor %}
                         </ul> 
-                        {% if forloop.counter|divisibleby:"3" %}
-                            </div>
-                            <div class="row">
-                        {% endif %}
                     </div>
+                    {% if forloop.counter|divisibleby:"3" %}
+                        </div>
+                        <div class="row">
+                    {% endif %}
                 {% endfor %}
             </div>
+            <hr />
+            <ul class="inline text-right">
+                <li>
+                    <a href="mailto:tonyblundell@gmail.com">
+                        <i class="icon-envelope"></i>
+                        <span>tonyblundell@gmail.com</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="github.com">
+                        <i class="icon-github"></i>
+                        <span>src</span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </body>
 </html>
