@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.db.models import Q
+from django.utils.text import capfirst
 from django.utils.timezone import utc
 import feedparser
 from time import mktime
@@ -36,7 +37,8 @@ class Feed(models.Model):
         """
         uid = getattr(entry, 'id', None) or entry.link
         posted = datetime.datetime(*entry.published_parsed[:6])
-        text = entry.title.replace(self.strip_string, '').capitalize()
+        text = capfirst(entry.title.replace(self.strip_string, ''))
+
         url = entry.link
 
         # If the post already exists, update it 
