@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tony Blundell</title>
+        <title>{{ title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
@@ -12,8 +12,8 @@
     </head>
     <body>
         <div class="container">
-            <h1>Tony Blundell</h1>
-            <p class="lead">Web Developer, Sheffield UK</p>
+            <h1>{{ title }}</h1>
+            <p class="lead">{{ subtitle }}</p>
             <div class="row">
                 {% for feed in feeds %}
                     <div class="feed span4">
@@ -43,13 +43,13 @@
             <hr />
             <ul class="inline text-right">
                 <li>
-                    <a href="mailto:tonyblundell@gmail.com">
+                    <a href="mailto:{{ mail }}">
                         <i class="icon-envelope"></i>
-                        <span>tonyblundell@gmail.com</span>
+                        <span>{{ mail }}</span>
                     </a>
                 </li>
                 <li>
-                    <a href="github.com">
+                    <a href="http://github.com/tonyblundell/socialdump2">
                         <i class="icon-github"></i>
                         <span>src</span>
                     </a>
