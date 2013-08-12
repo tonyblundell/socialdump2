@@ -24,10 +24,11 @@
                             </a>
                         </h2>
                         <ul class="unstyled">
-                            {% for post in feed.posts.all|slice:"6" %}
+                            {% for post in feed.posts.all|slice:"10" %}
                                 <li class="{% if forloop.counter > 3 %}hidden-phone{% endif %}">
-                                    <a href="{{ post.url }}">{{ post.text }}</a>
-                                    <p class="muted">{{ post.posted|timesince }} ago</p>    
+                                    <p>
+                                        <a href="{{ post.url }}">{{ post.text }}</a>
+                                    </p>
                                 </li>
                             {% empty %}
                                 <li>No posts</li>
