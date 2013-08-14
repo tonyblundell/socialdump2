@@ -66,3 +66,20 @@ class Post(models.Model):
 
     def __unicode__(self):
         return self.text
+
+    def ago(self):
+        now = datetime.datetime.utcnow()
+        diff = now.date() - self.posted.date()
+        months = diff.days / 31
+        if months > 0:
+            label = 'months' if months > 1 else 'month'
+            return '{0} {1} ago'.format(months, label)
+        weeks = diff.days / 7
+        if weeks > 0:
+            label = 'weeks' if weeks > 1 else 'week'
+            return '{0} {1} ago'.format(weeks, label)
+        if diff.days > 2:
+            return '{0} days ago'.format(diff.days)
+        if diff.days > 1:
+            return 'Yesterday'
+        return 'Today'
