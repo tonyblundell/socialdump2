@@ -10,6 +10,7 @@ class Feed(models.Model):
     feed_url = models.URLField(verbose_name='Feed URL')
     icon = models.CharField(max_length=200)
     label = models.CharField(max_length=200)
+    offset = models.IntegerField(default=0)
     order = models.PositiveIntegerField()
     site_url = models.URLField(verbose_name='Site URL')
     strip_string = models.CharField(max_length=200, null=True, blank=True)
@@ -37,6 +38,7 @@ class Feed(models.Model):
         """
         uid = getattr(entry, 'id', None) or entry.link
         posted = datetime.datetime(*entry.published_parsed[:6])
+        posted = posted + datetime.timedelta(seconds=self.offset*60*60) 
         text = capfirst(entry.title.replace(self.strip_string, ''))
 
         url = entry.link
