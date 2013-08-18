@@ -71,17 +71,19 @@ class Post(models.Model):
 
     def ago(self):
         now = datetime.datetime.utcnow()
-        diff = now.date() - self.posted.date()
-        months = diff.days / 31
-        if months > 0:
-            label = 'months' if months > 1 else 'month'
-            return '{0} {1} ago'.format(months, label)
-        weeks = diff.days / 7
-        if weeks > 0:
-            label = 'weeks' if weeks > 1 else 'week'
-            return '{0} {1} ago'.format(weeks, label)
-        if diff.days > 2:
-            return '{0} days ago'.format(diff.days)
-        if diff.days > 1:
-            return 'Yesterday'
-        return 'Today'
+        diff = now - self.posted
+        if diff.total_seconds() >= 60:
+            periods = (
+                ('year', diff.days/365),
+                ('month', diff.days/30),
+                ('week', diff.days/7),
+                ('day', diff.days),
+                ('hour', diff.seconds/3600),
+                ('minute', diff.seconds/60),
+            )
+            for label, period in periods:
+                if period > 0:
+                    if period > 1:
+                        label += 's'
+                    return '{0} {1} ago'.format(period, label)
+        return 'Just now'
