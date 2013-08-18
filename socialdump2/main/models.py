@@ -25,7 +25,6 @@ class Feed(models.Model):
         """
             Download the RSS feed, add/update posts.
         """
-        self.posts.all().delete()
         for entry in feedparser.parse(self.feed_url).entries:
             try:
                 self.parse_feedparser_entry(entry)
