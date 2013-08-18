@@ -25,7 +25,9 @@ class Feed(models.Model):
         """
             Download the RSS feed, add/update posts.
         """
-        for entry in feedparser.parse(self.feed_url).entries:
+        entries = feedparser.parse(self.feed_url).entries
+        entries = sorted(entries, key=lambda x: x.published) 
+        for entry in entries: 
             try:
                 self.parse_feedparser_entry(entry)
             except AttributeError:
