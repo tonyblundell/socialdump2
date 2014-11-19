@@ -26,7 +26,7 @@ class Feed(models.Model):
             Download the RSS feed, add/update posts.
         """
         entries = feedparser.parse(self.feed_url).entries
-        entries = sorted(entries, key=lambda x: x.published) 
+        entries = sorted(entries, key=lambda x: getattr(x, 'published', x.updated))
         for entry in entries: 
             try:
                 self.parse_feedparser_entry(entry)
@@ -38,7 +38,8 @@ class Feed(models.Model):
             Parse a feedparser entry object to a post object.
         """
         uid = getattr(entry, 'id', None) or entry.link
-        posted = datetime.datetime(*entry.published_parsed[:6])
+        date = getattr(entry, 'published_parsed', entry.updated_parsed)
+        posted = datetime.datetime(*date[:6])
         posted = posted + datetime.timedelta(seconds=self.tz_offset*60*60) 
         text = capfirst(entry.title.replace(self.strip_string, ''))
 
